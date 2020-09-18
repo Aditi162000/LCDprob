@@ -1,0 +1,331 @@
+#include<iostream>
+//#define ROWS 7
+//#define COLS 4
+#define SPACE ' '
+#define HORIZONTAL '-'
+#define VERTICAL '|'
+using namespace std;
+
+char lcd[8][23][12];
+
+void clear_array (int s, char **digit, int ROWS, int COLS,int len);
+void print_array (int s, char **digit, int ROWS, int index,int len);
+void print_top (int s, char **digit, int ROWS, int index,int len);
+void print_bottom (int s, char **digit, int ROWS, int index,int len);
+void print_middle (int s, char **digit, int ROWS, int index,int len);
+void print_top_left (int s, char **digit, int ROWS, int index,int len);
+void print_top_right (int s, char **digit, int ROWS, int index,int len);
+void print_bottom_left (int s, char **digit, int ROWS, int index,int len);
+void print_bottom_right (int s, char **digit, int ROWS, int index,int len);
+
+void print_zero (int s, char **digit, int ROWS, int COLS,int i,int len);
+void print_one (int s, char **digit, int ROWS, int COLS,int i,int len);
+void print_two (int s, char **digit, int ROWS, int COLS,int i,int len);
+void print_three (int s, char **digit, int ROWS, int COLS,int i,int len);
+void print_four (int s, char **digit, int ROWS, int COLS,int i,int len);
+void print_five (int s, char **digit, int ROWS, int COLS,int i,int len);
+void print_six (int s, char **digit, int ROWS, int COLS,int i,int len);
+void print_seven (int s, char **digit, int ROWS, int COLS,int i,int len);
+void print_eight (int s, char **digit, int ROWS, int COLS,int i,int len);
+void print_nine (int s, char **digit, int ROWS, int COLS,int i,int len);
+
+int main ()
+{
+  int s;
+  string num;
+  cin >> s;
+  cin >> num;
+
+  int ROWS = 2 * s + 3;
+  //int COLS = (s + 2)+1;
+  
+  while (s > 0)
+    {
+      int n = 0;
+      ROWS = 2 * s + 3;
+      
+      int len = num.length ();
+      int COLS = len*(s + 2)+(len-1);
+      char **digit = new char *[ROWS];
+        for (int i = 0; i < ROWS; ++i)
+            digit[i] = new char[COLS];
+      
+      clear_array (s, digit,ROWS,COLS,len);
+      for (int i = 0; i < num.length (); i++)
+	  {
+	 
+	  char a = num[i];
+	  //cout<<a<<endl;
+	  switch (a)
+	    {
+	    case '0':
+	      print_zero (s, digit, ROWS,COLS,i,len);
+	      break;
+	    case '1':
+	      print_one (s, digit, ROWS, COLS,i,len);
+	      break;
+	    case '2':
+	      print_two (s, digit, ROWS, COLS,i,len);
+	      break;
+	    case '3':
+	      print_three (s, digit, ROWS, COLS,i,len);
+	      break;
+	    case '4':
+	      print_four (s, digit, ROWS, COLS,i,len);
+	      break;
+	    case '5':
+	      print_five (s, digit, ROWS, COLS,i,len);
+	      break;
+	    case '6':
+	      print_six (s, digit, ROWS, COLS,i,len);
+	      break;
+	    case '7':
+	      print_seven (s, digit, ROWS, COLS,i,len);
+	      break;
+	    case '8':
+	      print_eight (s, digit, ROWS, COLS,i,len);
+	      break;
+	    case '9':
+	      print_nine (s, digit, ROWS, COLS,i,len);
+	      break;
+	    }
+	 print_array (s, digit,ROWS,COLS,len); 
+    }
+
+      cin >> s >> num;
+   
+    cout<<endl;
+
+}
+return 0;
+}
+
+void print_top (int s, char **digit, int ROWS, int index,int len)
+{
+  int row = 0;
+  
+
+  for (int j = ((s+2)*index)+1; j < ((s+2)*(index+1) - 1); j++)
+    {
+      digit[row][j] = HORIZONTAL;
+    }
+}
+
+void print_top_left (int s, char **digit, int ROWS, int index,int len)
+{
+  int col = index*(s+2);
+  int middle = ROWS / 2;
+
+  for (int j = 1; j < middle; j++)
+    {
+      digit[j][col] = VERTICAL;
+    }
+    
+}
+
+void print_top_right (int s, char **digit, int ROWS, int index,int len)
+{
+  int col =((s+2)*(index+1)-1);
+  int middle = ROWS / 2;
+
+  for (int j = 1; j < middle; j++)
+    {
+      digit[j][col] = VERTICAL;
+    }
+     
+}
+
+void print_bottom_left (int s, char **digit, int ROWS, int index,int len)
+{
+  int col = index*(s+2);
+  int middle = ROWS / 2;
+
+  for (int j = middle + 1; j < ROWS - 1; j++)
+    {
+      digit[j][col] = VERTICAL;
+    }
+     
+}
+
+void print_bottom_right (int s, char **digit, int ROWS, int index,int len)
+{
+  int col = ((s+2)*(index+1)-1);
+  int middle = ROWS / 2;
+
+  for (int j = middle + 1; j < ROWS - 1; j++)
+    {
+      digit[j][col] = VERTICAL;
+    }
+     
+}
+
+void print_bottom (int s, char **digit, int ROWS, int index,int len)
+{
+  int row = ROWS - 1;
+
+  for (int j = 1; j < ((s+2)*(index+1)-1); j++)
+    {
+      digit[row][j] = HORIZONTAL;
+    }
+    
+}
+
+void print_middle (int s, char **digit, int ROWS, int index,int len)
+{
+  int row = ROWS / 2;
+
+  for (int j = 1; j < ((s+2)*(index+1)-1); j++)
+    {
+      digit[row][j] = HORIZONTAL;
+    }
+    
+}
+
+void clear_array (int s, char **digit, int ROWS, int COLS,int len)
+{
+  //ROWS=2*s+3;
+  //COLS=s+2;
+  //char digit[ROWS][COLS]
+  for (int i = 0; i < ROWS; i++)
+    for (int j = 0; j < COLS; j++)
+      digit[i][j] = SPACE;
+}
+
+void print_array (int s, char **digit, int ROWS, int index,int len)
+{
+
+  // cout << "Printing digitstart" << endl << endl;
+  for (int i = 0; i < ROWS; i++)
+    {
+      for (int j = (index*(s+2)); j <= (index+1)*(s+2); j++)
+	{
+	  cout<< digit[i][j];
+	}
+	//cout<<endl;
+
+ }
+  
+}
+
+void print_zero (int s, char **digit, int ROWS, int COLS,int i,int len)
+{
+  //clear_array (s, digit, ROWS,COLS,len);
+  print_top (s, digit, ROWS,i,len);
+  print_bottom (s, digit,ROWS,i,len);
+  print_top_left (s, digit,ROWS,i,len);
+  print_top_right (s, digit,ROWS,i,len);
+  print_bottom_left (s, digit,ROWS,i,len);
+  print_bottom_right (s, digit,ROWS,i,len);
+
+}
+
+void print_one (int s, char **digit, int ROWS, int COLS,int i,int len)
+{
+  //clear_array (s, digit,ROWS,COLS,len);
+  print_top_left (s, digit,ROWS,i,len);
+  print_bottom_left (s, digit,ROWS,i,len);
+  
+}
+
+void print_two (int s, char **digit, int ROWS, int COLS,int i,int len)
+{
+  //clear_array (s, digit,ROWS,COLS,len);
+  print_top (s, digit,ROWS,i,len);
+  print_bottom (s, digit,ROWS,i,len);
+  print_middle (s, digit,ROWS,i,len);
+  //print_top_left(digit);
+  print_top_right (s, digit,ROWS,i,len);
+  print_bottom_left (s, digit,ROWS,i,len);
+  
+}
+
+void print_three (int s, char **digit, int ROWS, int COLS,int i,int len)
+{
+ // clear_array (s, digit,ROWS,COLS,len);
+  print_top (s, digit,ROWS,i,len);
+  print_bottom (s, digit,ROWS,i,len);
+  print_middle (s, digit,ROWS,i,len);
+//      print_top_left(digit);
+  print_top_right (s, digit,ROWS,i,len);
+//      print_bottom_left(digit);
+  print_bottom_right (s, digit,ROWS,i,len);
+  
+}
+
+void print_four (int s, char **digit, int ROWS, int COLS,int i,int len)
+{
+  //clear_array (s, digit,ROWS,COLS,len);
+  //print_top(digit);
+  //print_bottom(digit);
+  print_middle (s, digit,ROWS,i,len);
+  print_top_left (s, digit,ROWS,i,len);
+  print_top_right (s, digit,ROWS,i,len);
+  //print_bottom_left(digit);
+  print_bottom_right (s, digit,ROWS,i,len);
+ 
+}
+
+void print_five (int s, char **digit, int ROWS, int COLS,int i,int len)
+{
+  //clear_array (s, digit,ROWS,COLS,len);
+  print_top (s, digit,ROWS,i,len);
+  print_bottom (s, digit,ROWS,i,len);
+  print_middle (s, digit,ROWS,i,len);
+  print_top_left (s, digit,ROWS,i,len);
+  //print_top_right(digit);
+  //print_bottom_left(digit);
+  print_bottom_right (s, digit,ROWS,i,len);
+ 
+}
+
+void print_six (int s, char **digit, int ROWS, int COLS,int i,int len)
+{
+  //clear_array (s, digit,ROWS,COLS,len);
+  print_top (s, digit,ROWS,i,len);
+  print_bottom (s, digit,ROWS,i,len);
+  print_middle (s, digit,ROWS,i,len);
+  print_top_left (s, digit,ROWS,i,len);
+  //print_top_right(digit);
+  print_bottom_left (s, digit,ROWS,i,len);
+  print_bottom_right (s, digit,ROWS,i,len);
+  
+}
+
+void print_seven (int s, char **digit, int ROWS, int COLS,int i,int len)
+{
+  //clear_array (s, digit,ROWS,COLS,len);
+  print_top (s, digit,ROWS,i,len);
+//      print_bottom(digit);
+//      print_middle(digit);
+//      print_top_left(digit);
+  print_top_right (s, digit,ROWS,i,len);
+//      print_bottom_left(digit);
+  print_bottom_right (s, digit,ROWS,i,len);
+
+}
+
+void print_eight (int s, char **digit, int ROWS, int COLS,int i,int len)
+{
+  //clear_array (s, digit,ROWS,COLS,len);
+  print_top (s, digit,ROWS,i,len);
+  print_bottom (s, digit,ROWS,i,len);
+  print_middle (s, digit,ROWS,i,len);
+  print_top_left (s, digit,ROWS,i,len);
+  print_top_right (s, digit,ROWS,i,len);
+  print_bottom_left (s, digit,ROWS,i,len);
+  print_bottom_right (s, digit,ROWS,i,len);
+ 
+}
+
+void print_nine (int s, char **digit, int ROWS, int COLS,int i,int len)
+{
+ // clear_array (s, digit,ROWS,COLS,len);
+  print_top (s, digit,ROWS,i,len);
+//      print_bottom(digit);
+  print_middle (s, digit,ROWS,i,len);
+  print_top_left (s, digit,ROWS,i,len);
+  print_top_right (s, digit,ROWS,i,len);
+//      print_bottom_left(digit);
+  print_bottom_right (s, digit,ROWS,i,len);
+  
+}
